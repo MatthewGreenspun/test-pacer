@@ -1,7 +1,7 @@
 {
   "name": "Test Pacer",
   "short_name": "Test Pacer",
-  "start_url": "/?home=true",
+  "start_url": "/test-pacer",
   "icons": [
     {
       "src": "icons/manifest-icon-192.png",
