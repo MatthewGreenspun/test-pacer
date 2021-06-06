@@ -6,8 +6,5 @@ workbox.routing.registerRoute(
   ({ request }) => request.destination === "image",
   new workbox.strategies.CacheFirst()
 );
-// workbox.precaching.precacheAndRoute([
-//   { url: "/index.html", revision: null },
-//   { url: "/index.css", revision: null },
-//   { url: "/index.js", revision: null },
-// ]);
+
+workbox.routing.registerRoute(/\/*/, new workbox.strategies.CacheFirst());
