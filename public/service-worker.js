@@ -7,4 +7,7 @@ workbox.routing.registerRoute(
   new workbox.strategies.CacheFirst()
 );
 
-workbox.routing.registerRoute(/\/*/, new workbox.strategies.CacheFirst());
+workbox.routing.registerRoute(
+  /\/*/,
+  new workbox.strategies.StaleWhileRevalidate()
+);

@@ -12,8 +12,11 @@ const nextQuestionBtn = document.getElementById("next");
 const lastQuestionBtn = document.getElementById("last");
 const settings = document.getElementById("settings-container");
 const timerContainer = document.getElementById("timer");
-const questionsRemainingDiv = document.getElementById("questions-remaining");
 
+const questionsRemainingDiv = document.getElementById("questions-remaining");
+const currentQuestionDiv = document.getElementById("current-question");
+
+let currentQuestion = 1;
 let questionsRemaining = totalQuestions;
 
 let testMinutesRemaining = totalTime;
@@ -47,8 +50,10 @@ function handleFinishQuestion() {
   questionTime.classList.remove("text-danger");
   questionOvertime = false;
   lastQuestionBtn.classList.remove("disabled");
-  if (questionsRemaining > 0) questionsRemaining -= 1;
-  else nextQuestionBtn.classList.add("disabled");
+  if (questionsRemaining > 0) {
+    if (questionsRemaining > 1) currentQuestion++;
+    questionsRemaining--;
+  } else nextQuestionBtn.classList.add("disabled");
   if (questionsRemaining > 0) {
     questionMinutesRemaining = Math.floor(
       (testMinutesRemaining + testSecondsRemaining / 60) / questionsRemaining
@@ -69,7 +74,10 @@ function handleUndoQuestion() {
   questionTime.classList.remove("text-danger");
   nextQuestionBtn.classList.remove("disabled");
   questionOvertime = false;
-  if (questionsRemaining < totalQuestions) questionsRemaining += 1;
+  if (questionsRemaining < totalQuestions) {
+    if (currentQuestion > 1 && questionsRemaining > 0) currentQuestion--;
+    questionsRemaining++;
+  }
   if (questionsRemaining === totalQuestions)
     lastQuestionBtn.classList.add("disabled");
   if (questionsRemaining > 0) {
@@ -97,8 +105,10 @@ function drawTimer() {
     questionSecondsRemaining < 10 ? "0" : ""
   }${questionSecondsRemaining}`;
 
+  currentQuestionDiv.textContent = currentQuestion;
   questionsRemainingDiv.textContent = questionsRemaining;
 }
+
 function timerLogic() {
   drawTimer();
   if (!testOvertime) {
@@ -178,6 +188,7 @@ endBtn.addEventListener("click", () => {
   paused = false;
   questionOvertime = false;
   testOvertime = false;
+  currentQuestion = 1;
   questionsRemaining = totalQuestions;
 
   testMinutesRemaining = totalTime;
